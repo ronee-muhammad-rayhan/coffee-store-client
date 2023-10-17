@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 const AddCoffee = () => {
-  const handleSubmit = (event) => {
+  const handleAddCoffee = (event) => {
     event.preventDefault();
 
     const form = event.target;
@@ -63,7 +63,7 @@ const AddCoffee = () => {
     <div className="bg-[#F4F3F0] md:p-24">
       <h2 onClick={showCoffees}>show Coffees</h2>
       <h2 className="text-3xl font-extrabold text-center">Add a Coffee</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleAddCoffee}>
         {/* form name and quantity row */}
         <div className="md:flex mb-8">
           <div className="form-control md:w-1/2">
