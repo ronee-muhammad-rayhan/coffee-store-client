@@ -49,8 +49,19 @@ const AddCoffee = () => {
     form.reset();
   };
 
+  const showCoffees = () => {
+    // read data from server
+    fetch("http://localhost:5001/coffees")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // alert(data);
+      });
+  };
+
   return (
     <div className="bg-[#F4F3F0] md:p-24">
+      <h2 onClick={showCoffees}>show Coffees</h2>
       <h2 className="text-3xl font-extrabold text-center">Add a Coffee</h2>
       <form onSubmit={handleSubmit}>
         {/* form name and quantity row */}
