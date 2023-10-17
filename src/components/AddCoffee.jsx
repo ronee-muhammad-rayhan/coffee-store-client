@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 const AddCoffee = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,6 +24,28 @@ const AddCoffee = () => {
     };
 
     console.log(newCoffee);
+
+    // send data to the server
+    fetch("http://localhost:5001/coffees", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Success!",
+            text: "Coffee added successfully",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+        }
+      });
+
     form.reset();
   };
 
@@ -51,7 +74,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
               <input
-                type="text"
+                type="number"
                 name="quantity"
                 placeholder="Available Quantity"
                 className="input input-bordered w-full"
