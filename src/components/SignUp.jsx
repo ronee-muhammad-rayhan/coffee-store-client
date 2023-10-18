@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
@@ -15,6 +17,27 @@ const SignUp = () => {
         console.log(userCredential);
         console.log(userCredential.user);
         console.log(userCredential.user.email);
+        // new user has been created
+        const createdAt = userCredential.user?.metadata?.creationTime;
+        const user = { email, createdAt: createdAt };
+        fetch("http://localhost:5001/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.insertedId) {
+              const notify = () => {
+                console.log("object", data.insertedId);
+                return toast("user added to the database successfully!!!");
+              };
+              notify();
+            }
+          });
       })
       .catch((error) => {
         console.error(error);
@@ -27,7 +50,7 @@ const SignUp = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
+            <h1 className="text-5xl font-bold">SignUp now!</h1>
             <p className="py-6">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
@@ -66,12 +89,13 @@ const SignUp = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
+                <button className="btn btn-primary">SignUp</button>
               </div>
             </form>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
