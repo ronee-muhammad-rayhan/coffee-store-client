@@ -1,7 +1,29 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Users = () => {
   const loadedUsers = useLoaderData();
+  const [users, setUsers] = useState(loadedUsers);
+
+  const handleDelete = (id) => {
+    // be confirmed to be deleted
+    fetch(`http://localhost:5001/users/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        const notify = () => {
+          console.log("object", data.insertedId);
+          return toast("user removed from the database successfully!!!");
+        };
+        notify();
+        const remainingUsers = users.filter((user) => user._id !== id);
+        setUsers(remainingUsers);
+      });
+  };
 
   return (
     <div>
@@ -18,17 +40,25 @@ const Users = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            {loadedUsers.map((user, idx) => (
+            {users.map((user, idx) => (
               <tr key={user._id}>
                 <th>{idx + 1}</th>
                 <td>{user.email}</td>
                 <td>{user.createdAt}</td>
-                <td>Action</td>
+                <td>
+                  <button
+                    onClick={() => handleDelete(user._id)}
+                    className="btn"
+                  >
+                    X
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 };
