@@ -21,13 +21,16 @@ const SignIn = () => {
         };
         console.log(user);
         // update(patch) last logged at in the database
-        fetch("http://localhost:5001/users", {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(user),
-        })
+        fetch(
+          "https://coffee-store-server-88kv2zuyb-roneemrayhans-projects.vercel.app/users",
+          {
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(user),
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);

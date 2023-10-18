@@ -20,9 +20,12 @@ const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
         // Swal.fire("Deleted!", "Your file has been deleted.", "success");
         // console.log("delete confirmed");
 
-        fetch(`http://localhost:5001/coffees/${id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://coffee-store-server-88kv2zuyb-roneemrayhans-projects.vercel.app/coffees/${id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
